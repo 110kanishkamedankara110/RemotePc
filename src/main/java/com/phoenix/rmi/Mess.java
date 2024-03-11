@@ -16,7 +16,7 @@ import javax.swing.ImageIcon;
 public interface Mess extends Remote{
     public void call(int keyCode)throws RemoteException; 
     public void release(int keyCode)throws RemoteException; 
-    public void cast(ImageIcon ii)throws RemoteException;
+    public ImageIcon cast()throws RemoteException;
     public void connect(String det)throws RemoteException;
     public void mouseMove(float x, float y)throws RemoteException;
     public void mouseClick(int button)throws RemoteException;

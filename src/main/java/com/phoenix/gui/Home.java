@@ -153,28 +153,22 @@ public class Home extends javax.swing.JFrame {
 
     }
 
-    public String type;
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
 
         String url = jTextField1.getText();
-        connect(url, "Client");
+        connect(url);
 
-        try {
-            mess.connect(Home.url);
-        } catch (RemoteException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cast();
         jLabel1.grabFocus();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     boolean connect = false;
 
-    public void connect(String url, String Type) {
+    public void connect(String url) {
 
         try {
             System.out.println("Connectiong.........");
-
             System.setProperty("java.rmi.server.useLocalHostname", "true");
             System.setProperty("java.rmi.server.hostname", url.split(":")[0]);
             System.setProperty("Sun.rmi.transport.tcp.responseTimeout", "2000000");
@@ -183,14 +177,11 @@ public class Home extends javax.swing.JFrame {
             System.setProperty("Sun.rmi.transport.proxy.connectTimeout", "2000000");
             System.setProperty("Sun.rmi.transport.tcp.handshakeTimeout", "2000000");
 
-            type = Type;
             InitialContext ic = new InitialContext();
 
             mess = (Mess) ic.lookup("rmi://" + url + "/message");
             System.out.println("Connected.................");
-            if (Type.equals("Server")) {
-                cast();
-            }
+
         } catch (Exception ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -203,22 +194,22 @@ public class Home extends javax.swing.JFrame {
 
     private void jLabel1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseMoved
         if (mess != null) {
-            if (type.equals("Client")) {
-                new Thread(() -> {
-                    try {
-                        float width = jLabel1.getWidth();
-                        float height = jLabel1.getHeight();
 
-                        float dX = evt.getX() / width != 0 ? evt.getX() / width : 0;
-                        float dY = evt.getY() / height != 0 ? evt.getY() / height : 0;
+            new Thread(() -> {
+                try {
+                    float width = jLabel1.getWidth();
+                    float height = jLabel1.getHeight();
 
-                        mess.mouseMove((dX), (dY));
-                    } catch (Exception ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    float dX = evt.getX() / width != 0 ? evt.getX() / width : 0;
+                    float dY = evt.getY() / height != 0 ? evt.getY() / height : 0;
 
-                }).start();
-            }
+                    mess.mouseMove((dX), (dY));
+                } catch (Exception ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }).start();
+
         }
 
 
@@ -226,18 +217,18 @@ public class Home extends javax.swing.JFrame {
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         if (mess != null) {
-            if (type.equals("Client")) {
-                new Thread(() -> {
-                    try {
 
-                        mess.mouseClick(evt.getButton());
+            new Thread(() -> {
+                try {
 
-                    } catch (Exception ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    mess.mouseClick(evt.getButton());
 
-                }).start();
-            }
+                } catch (Exception ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }).start();
+
         }
     }//GEN-LAST:event_jLabel1MouseClicked
 
@@ -248,34 +239,34 @@ public class Home extends javax.swing.JFrame {
 
     private void jLabel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseReleased
         if (mess != null) {
-            if (type.equals("Client")) {
-                new Thread(() -> {
-                    try {
 
-                        mess.mouseRelease(evt.getButton());
+            new Thread(() -> {
+                try {
 
-                    } catch (Exception ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    mess.mouseRelease(evt.getButton());
 
-                }).start();
-            }
+                } catch (Exception ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }).start();
+
         }
     }//GEN-LAST:event_jLabel1MouseReleased
 
     private void jLabel1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyPressed
 
         if (mess != null) {
-            if (type.equals("Client")) {
-                new Thread(() -> {
-                    try {
-                        mess.call(evt.getKeyCode());
-                    } catch (Exception ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                    }
 
-                }).start();
-            }
+            new Thread(() -> {
+                try {
+                    mess.call(evt.getKeyCode());
+                } catch (Exception ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }).start();
+
         }
      }//GEN-LAST:event_jLabel1KeyPressed
 
@@ -285,61 +276,54 @@ public class Home extends javax.swing.JFrame {
 
     private void jLabel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseDragged
         if (mess != null) {
-            if (type.equals("Client")) {
-                new Thread(() -> {
-                    try {
-                        float width = jLabel1.getWidth();
-                        float height = jLabel1.getHeight();
 
-                        float dX = evt.getX() / width != 0 ? evt.getX() / width : 0;
-                        float dY = evt.getY() / height != 0 ? evt.getY() / height : 0;
+            new Thread(() -> {
+                try {
+                    float width = jLabel1.getWidth();
+                    float height = jLabel1.getHeight();
 
-                        mess.mouseDragg(dX, dY, evt.getButton());
-                    } catch (Exception ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    float dX = evt.getX() / width != 0 ? evt.getX() / width : 0;
+                    float dY = evt.getY() / height != 0 ? evt.getY() / height : 0;
 
-                }).start();
-            }
+                    mess.mouseDragg(dX, dY, evt.getButton());
+                } catch (Exception ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }).start();
+
         }
     }//GEN-LAST:event_jLabel1MouseDragged
 
     private void jLabel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyReleased
         if (mess != null) {
-            if (type.equals("Client")) {
-                new Thread(() -> {
-                    try {
-                        mess.release(evt.getKeyCode());
-                    } catch (Exception ex) {
-                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                    }
 
-                }).start();
-            }
+            new Thread(() -> {
+                try {
+                    mess.release(evt.getKeyCode());
+                } catch (Exception ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }).start();
+
         }
     }//GEN-LAST:event_jLabel1KeyReleased
 
     public void cast() {
         try {
-            Robot r = new Robot();
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            Rectangle rect = new Rectangle(screenSize);
+
             new Thread(() -> {
                 while (true) {
-                    BufferedImage bi = r.createScreenCapture(rect);
-                    Image i = bi.getScaledInstance(jLabel1.getWidth(), jLabel1.getHeight(), Image.SCALE_SMOOTH);
-                    ImageIcon ii = new ImageIcon();
-                    ii.setImage(i);
-//                    jLabel1.setIcon(ii);
                     try {
-                        mess.cast(ii);
+                        jLabel1.setIcon(mess.cast());
                     } catch (RemoteException ex) {
                         Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                     }
+
                 }
 
             }).start();
-
         } catch (Exception ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }

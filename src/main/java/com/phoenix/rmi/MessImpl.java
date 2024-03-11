@@ -7,6 +7,8 @@ package com.phoenix.rmi;
 import com.phoenix.gui.Home;
 import java.awt.AWTException;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
@@ -38,6 +40,7 @@ public class MessImpl extends UnicastRemoteObject implements Mess {
         }).start();
 
     }
+
     @Override
     public void release(int keyCode) {
 
@@ -60,14 +63,27 @@ public class MessImpl extends UnicastRemoteObject implements Mess {
     }
 
     @Override
-    public void cast(ImageIcon ii) throws RemoteException {
-        com.phoenix.gui.Home.home.jLabel1.setIcon(ii);
+    public ImageIcon cast() throws RemoteException {
+        try {
+            Robot r = new Robot();
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Rectangle rect = new Rectangle(screenSize);
+
+            BufferedImage bi = r.createScreenCapture(rect);
+            Image i = bi.getScaledInstance(Home.home.jLabel1.getWidth(), Home.home.jLabel1.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon ii = new ImageIcon();
+            ii.setImage(i);
+            return ii;
+
+        } catch (Exception ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Override
     public void connect(String det) throws RemoteException {
-        Home.home.connect(det, "Server");
-
+        Home.home.connect(det);
     }
 
     @Override
@@ -129,9 +145,8 @@ public class MessImpl extends UnicastRemoteObject implements Mess {
         new Thread(() -> {
             try {
 
-                
                 r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-              
+
                 Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
                 r.mouseMove((int) (dim.width * x), (int) (dim.height * y));
             } catch (Exception ex) {
