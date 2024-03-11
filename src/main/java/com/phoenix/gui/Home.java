@@ -100,6 +100,9 @@ public class Home extends javax.swing.JFrame {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jLabel1KeyPressed(evt);
             }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jLabel1KeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jLabel1KeyTyped(evt);
             }
@@ -300,6 +303,21 @@ public class Home extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jLabel1MouseDragged
+
+    private void jLabel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyReleased
+        if (mess != null) {
+            if (type.equals("Client")) {
+                new Thread(() -> {
+                    try {
+                        mess.release(evt.getKeyCode());
+                    } catch (Exception ex) {
+                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }).start();
+            }
+        }
+    }//GEN-LAST:event_jLabel1KeyReleased
 
     public void cast() {
         try {

@@ -38,6 +38,18 @@ public class MessImpl extends UnicastRemoteObject implements Mess {
         }).start();
 
     }
+    @Override
+    public void release(int keyCode) {
+
+        new Thread(() -> {
+            try {
+                r.keyRelease(keyCode);
+            } catch (Exception ex) {
+                Logger.getLogger(MessImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }).start();
+
+    }
 
     public MessImpl() throws RemoteException {
         try {
